@@ -1,7 +1,7 @@
 <template>
   <view class="post-card">
     <view class="post-head">
-      <u-image width="72" height="72" shape="circle" :src="post.avatar" />
+      <u-image width="72" height="72" shape="circle" :src="post.storeLogo" />
       <view class="head-info">
         <view class="name">{{ post.storeName }}</view>
         <view class="time">{{ post.createTime }}</view>
@@ -11,40 +11,28 @@
     <view class="post-content">{{ post.content }}</view>
 
     <view class="image-grid" v-if="post.images && post.images.length">
-      <u-image
-        v-for="(img, imgIndex) in post.images"
-        :key="img + imgIndex"
-        width="210"
-        height="210"
-        border-radius="12"
-        :src="img"
-        @click="previewImages(post.images, imgIndex)"
-      />
+      <u-image v-for="(img, imgIndex) in post.images" :key="img + imgIndex" width="210" height="210" border-radius="12"
+        :src="img" @click="previewImages(post.images, imgIndex)" />
     </view>
 
-    <view class="comment-title">评论（{{ (post.comments || []).length }}）</view>
-    <view v-if="post.comments && post.comments.length" class="comment-list">
-      <view class="comment-item" v-for="comment in post.comments" :key="comment.id">
-        <text class="comment-user">{{ comment.userName }}：</text>
+    <view class="comment-title">评论（{{ post.commentCount }}）</view>
+    <view v-if="post.commentList && post.commentList.length" class="comment-list">
+      <view class="comment-item" v-for="comment in post.commentList" :key="comment.id">
+        <text class="comment-user">{{ comment.nickName }}：</text>
         <text class="comment-text">{{ comment.content }}</text>
       </view>
     </view>
     <view v-else class="empty-comment">暂无评论，快来抢沙发</view>
 
     <view class="comment-input">
-      <u-input
-        :value="commentText"
-        :border="false"
-        height="66"
-        placeholder="写下你的评论..."
-        @input="onCommentInput"
-      />
+      <u-input v-model="commentText" :border="false" height="66" placeholder="写下你的评论..." />
       <u-button type="primary" shape="circle" size="mini" @click="onSubmitComment">发送</u-button>
     </view>
   </view>
 </template>
 
 <script>
+import { commentCreate } from "@/api/article";
 export default {
   name: "PostCard",
   props: {
@@ -52,17 +40,29 @@ export default {
       type: Object,
       required: true
     },
-    commentText: {
-      type: String,
-      default: ""
+  },
+  data() {
+    return {
+      commentText: "",
+      userInfo: this.$options.filters.isLogin() || {}
     }
   },
+  mounted() {},
   methods: {
-    onCommentInput(val) {
-      this.$emit("update-comment", val);
-    },
     onSubmitComment() {
-      this.$emit("submit-comment", this.post.id);
+      commentCreate({
+        postId: this.post.contentId,
+        content: this.commentText
+      }).then(res => {
+        if (res.data.success) {
+          this.post.commentList.push({
+            nickName: this.userInfo.nickName,
+            content: this.commentText
+          });
+          uni.showToast({ title: "评论成功", icon: "none" });
+          this.commentText = "";
+        }
+      })
     },
     previewImages(images, current) {
       uni.previewImage({
@@ -154,4 +154,3 @@ export default {
   align-items: center;
 }
 </style>
-

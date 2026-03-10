@@ -2,22 +2,11 @@
   <view class="circle-page">
     <view class="publish-card">
       <view class="card-title">商家发帖</view>
-      <u-input
-        v-model="publishForm.content"
-        type="textarea"
-        :border="false"
-        :height="170"
-        placeholder="请输入帖子内容，分享商品动态..."
-      />
+      <u-input v-model="publishForm.content" type="textarea" :border="false" :height="170"
+        placeholder="请输入帖子内容，分享商品动态..." />
       <view class="upload-wrap">
-        <u-upload
-          :header="{ accessToken: storage.getAccessToken() }"
-          :action="uploadAction"
-          width="145"
-          :max-count="9"
-          :show-progress="false"
-          @on-uploaded="onUploadDone"
-        />
+        <u-upload :header="{ accessToken: storage.getAccessToken() }" :action="uploadAction" width="145" :max-count="9"
+          :show-progress="false" @on-uploaded="onUploadDone" />
       </view>
       <view class="publish-footer">
         <text class="tips">支持上传多张图片，提升帖子曝光</text>
@@ -25,15 +14,8 @@
       </view>
     </view>
 
-    <view v-if="posts.length" class="post-list">
-      <PostCard
-        v-for="post in posts"
-        :key="post.id"
-        :post="post"
-        :comment-text="commentDrafts[post.id] || ''"
-        @update-comment="handleCommentInput(post.id, $event)"
-        @submit-comment="submitComment"
-      />
+    <view v-if="list.length" class="post-list">
+      <PostCard v-for="post in list" :key="post.id" :post="post" />
     </view>
     <u-empty v-else text="暂无帖子" mode="data"></u-empty>
   </view>
@@ -43,26 +25,8 @@
 import { upload } from "@/api/common.js";
 import storage from "@/utils/storage.js";
 import config from "@/config/config";
+import { getCircleList, circleCreate } from "@/api/article";
 import PostCard from "./components/PostCard.vue";
-
-const seedPosts = [
-  {
-    id: 1001,
-    storeName: "官方旗舰店",
-    avatar: config.defaultUserPhoto,
-    createTime: "刚刚",
-    content: "新品上架，今天下单享专属折扣，欢迎咨询。",
-    images: [
-      "https://dummyimage.com/600x600/f7f7f7/999999&text=Goods+1",
-      "https://dummyimage.com/600x600/f2f2f2/999999&text=Goods+2",
-      "https://dummyimage.com/600x600/ededed/999999&text=Goods+3"
-    ],
-    comments: [
-      { id: 1, userName: "用户A", content: "已下单，发货快一点哈~" },
-      { id: 2, userName: "用户B", content: "请问这个有其他颜色吗？" }
-    ]
-  }
-];
 
 export default {
   components: {
@@ -72,22 +36,34 @@ export default {
     return {
       storage,
       uploadAction: upload,
-      posts: [],
       publishForm: {
         content: "",
         images: []
       },
-      commentDrafts: {}
+      params: {
+        pageNumber: 1,
+        pageSize: 10,
+        storeName: "",
+      },
+      list: []
     };
   },
-  onShow() {
-    if (!this.posts.length) {
-      this.posts = JSON.parse(JSON.stringify(seedPosts));
-    }
+  onLoad() {
+    this.getList();
+  },
+  onShow() { },
+  onReachBottom() {
+    this.params.pageNumber++;
+    this.getList();
   },
   methods: {
-    handleCommentInput(postId, text) {
-      this.$set(this.commentDrafts, postId, text);
+    getList() {
+      getCircleList(this.params).then(res => {
+        if (res.data.success) {
+          const data = res.data.result;
+          this.list.push(...data.records);
+        }
+      });
     },
     onUploadDone(files) {
       this.publishForm.images = files.map((item) => item.response.result);
@@ -101,18 +77,17 @@ export default {
       }
 
       const post = {
-        id: Date.now(),
-        storeName: "当前商家",
-        avatar: config.defaultUserPhoto,
-        createTime: "刚刚",
         content,
-        images: [...this.publishForm.images],
-        comments: []
+        images: this.publishForm.images,
       };
-      this.posts.unshift(post);
-      this.publishForm.content = "";
-      this.publishForm.images = [];
-      uni.showToast({ title: "发布成功", icon: "none" });
+      circleCreate(post).then(res => {
+        if (res.data.success) {
+          this.publishForm.content = "";
+          this.publishForm.images = [];
+          uni.showToast({ title: "发布成功", icon: "none" });
+          this.getList();
+        }
+      });
     },
     submitComment(postId) {
       const text = ((this.commentDrafts[postId] || "") + "").trim();
@@ -173,5 +148,4 @@ export default {
   font-size: 22rpx;
   color: #999;
 }
-
 </style>

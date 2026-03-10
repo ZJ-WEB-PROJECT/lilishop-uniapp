@@ -40,4 +40,39 @@ export function getArticleDetail(type) {
 }
 
 
+/**
+ * 获取圈子列表
+ * @param 
+ */
+export function getCircleList(params) {
+  return http.request({
+    url: '/circle/post',
+    method: Method.GET,
+    params,
+  });
+}
+
+/**
+ * 发布帖子
+ * @param 
+ */
+export function circleCreate(data) {
+  return http.request({
+    url: '/circle/post/create',
+    method: Method.POST,
+    data: data,
+  });
+}
+
+/**
+ * 发布评论
+ * @param 
+ */
+export function commentCreate(data) {
+  return http.request({
+    url: 'circle/post/comment',
+    method: Method.POST,
+    data: data,
+  });
+}
 
