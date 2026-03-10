@@ -12,19 +12,19 @@
         </div>
         <!-- #endif -->
       </u-navbar>
-      <carousel v-if="item.type == 'carousel'" :res="item.options" />
+      <!-- <carousel v-if="item.type == 'carousel'" :res="item.options" /> -->
       <titleLayout v-if="item.type == 'title'" :res="item.options" />
-      <leftOneRightTwo v-if="item.type == 'leftOneRightTwo'" :res="item.options" />
+      <!-- <leftOneRightTwo v-if="item.type == 'leftOneRightTwo'" :res="item.options" /> -->
       <leftTwoRightOne v-if="item.type == 'leftTwoRightOne'" :res="item.options" />
       <topOneBottomTwo v-if="item.type == 'topOneBottomTwo'" :res="item.options" />
       <topTwoBottomOne v-if="item.type == 'topTwoBottomOne'" :res="item.options" />
       <flexThree v-if="item.type == 'flexThree'" :res="item.options" />
       <flexFive v-if="item.type == 'flexFive'" :res="item.options" />
       <flexFour v-if="item.type == 'flexFour'" :res="item.options" />
-      <flexTwo v-if="item.type == 'flexTwo'" :res="item.options" />
+      <!-- <flexTwo v-if="item.type == 'flexTwo'" :res="item.options" /> -->
       <textPicture v-if="item.type == 'textPicture'" :res="item.options" />
-      <menuLayout v-if="item.type == 'menu'" :res="item.options" />
-      <flexOne v-if="item.type == 'flexOne'" :res="item.options" />
+      <!-- <menuLayout v-if="item.type == 'menu'" :res="item.options" /> -->
+      <!-- <flexOne v-if="item.type == 'flexOne'" :res="item.options" /> -->
       <goods :enableBottomLoad="enableLoad" v-if="item.type == 'goods'" :res="item.options" />
       <group v-if="item.type == 'group'" :res="item.options" />
       <notice v-if="item.type == 'notice'" :res="item.options" />

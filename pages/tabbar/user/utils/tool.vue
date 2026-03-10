@@ -32,69 +32,69 @@
 			
 			
 			
-			<view class="interact-item" @click="navigateTo('/pages/mine/point/myPoint')">
+			<!-- <view class="interact-item" @click="navigateTo('/pages/mine/point/myPoint')">
 			  <image src="/static/mine/mypoint.png" mode=""></image>
 			  <view>我的积分</view>
-			</view>
+			</view> -->
 			
-			<view class="interact-item" @click="distribution">
+			<!-- <view class="interact-item" @click="distribution">
 			  <image src="/static/mine/distribution.png" mode=""></image>
 			  <view>我的分销</view>
-			</view>
+			</view> -->
 			
 			
-			
+<!-- 			
 			<view class="interact-item" @click="navigateTo('/pages/order/complain/complainList')">
 			  <image src="/static/mine/shensu.png" mode=""></image>
 			  <view>我的投诉</view>
-			</view>
+			</view> -->
 				   
-			<view class="interact-item" @click="navigateTo('/pages/cart/coupon/myCoupon')">
+			<!-- <view class="interact-item" @click="navigateTo('/pages/cart/coupon/myCoupon')">
 			  <image src="/static/mine/mycoupon.png" mode=""></image>
 			  <view>优惠券</view>
 			</view>
-			
+			 -->
 		
 			        
 					
-          <view class="interact-item" @click="navigateTo('/pages/mine/signIn')">
+          <!-- <view class="interact-item" @click="navigateTo('/pages/mine/signIn')">
             <image src="/static/mine/sign.png" mode=""></image>
             <view>每日签到</view>
-          </view>
+          </view> -->
          
          
        
           
 
-      
+<!--       
           <view class="interact-item" @click="navigateTo('/pages/cart/coupon/couponCenter')">
             <image src="/static/mine/couponcenter.png" mode=""></image>
             <view>领券中心</view>
-          </view>
+          </view> -->
           
          
           
-          <view class="interact-item" @click="navigateTo('/pages/promotion/bargain/log')">
+          <!-- <view class="interact-item" @click="navigateTo('/pages/promotion/bargain/log')">
             <image src="/static/mine/kanjia.png" mode=""></image>
             <view>砍价记录</view>
           </view>
-		  
+		   -->
 		
 		  
-          <view class="interact-item" @click="navigateTo('/pages/mine/set/feedBack')">
+          <!-- <view class="interact-item" @click="navigateTo('/pages/mine/set/feedBack')">
             <image src="/static/mine/feedback.png" mode=""></image>
             <view>意见反馈</view>
-          </view>
+          </view> -->
           
           <view class="interact-item" @click="navigateTo('/pages/mine/set/editionIntro')">
             <image src="/static/mine/pointgift.png" mode=""></image>
             <view>关于</view>
           </view>
           
-          <view class="interact-item" @click="navigateTo('/pages/passport/entry/seller/index')">
+          <!-- <view class="interact-item" @click="navigateTo('/pages/passport/entry/seller/index')">
             <image src="/static/mine/feedback.png" mode=""></image>
             <view>店铺入驻</view>
-          </view>
+          </view> -->
           
           
 <!--          <view class="interact-item" @click="inviter()">-->
