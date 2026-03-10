@@ -3,23 +3,13 @@
     <!-- 楼层装修店铺信息 -->
     <div>
       <u-navbar :border-bottom="false">
-        <u-search
-          v-model="keyword"
-          @search="search"
-          @click="search"
-          placeholder="请输入搜索"
-        ></u-search>
+        <u-search v-model="keyword" @search="search" @click="search" placeholder="请输入搜索"></u-search>
       </u-navbar>
       <div class="wrapper">
         <!-- 店铺信息模块 -->
         <div class="store flex">
-          <u-image
-            border-radius="10"
-            width="150"
-            height="150"
-            :src="storeInfo.storeLogo || config.logo"
-            mode="aspectFit"
-          >
+          <u-image border-radius="10" width="150" height="150" :src="storeInfo.storeLogo || config.logo"
+            mode="aspectFit">
           </u-image>
           <div class="box">
             <div class="store-name" @click="getStoreLicencePhoto">
@@ -28,12 +18,10 @@
             </div>
             <div class="flex store-message">
               <div>
-                <span>{{ storeInfo.collectionNum || 0 }}</span
-                >关注
+                <span>{{ storeInfo.collectionNum || 0 }}</span>关注
               </div>
               <div>
-                <span>{{ storeInfo.goodsNum || 0 }}</span
-                >件商品
+                <span>{{ storeInfo.goodsNum || 0 }}</span>件商品
               </div>
             </div>
           </div>
@@ -55,19 +43,12 @@
         </div>
       </div>
       <!-- 优惠券 -->
-      <scroll-view
-        scroll-x="true"
-        show-scrollbar="false"
-        class="discount"
-        v-if="couponList.length > 0"
-      >
+      <scroll-view scroll-x="true" show-scrollbar="false" class="discount" v-if="couponList.length > 0">
         <view class="card-box" v-for="(item, index) in couponList" :key="index">
           <view class="card" @click="getCoupon(item)">
             <view class="money">
               <view>
-                <span v-if="item.couponType == 'DISCOUNT'"
-                  >{{ item.couponDiscount }}折</span
-                >
+                <span v-if="item.couponType == 'DISCOUNT'">{{ item.couponDiscount }}折</span>
                 <span v-else>{{ item.price }}元</span>
               </view>
             </view>
@@ -82,23 +63,25 @@
 
       <!-- 基础店铺模式 -->
       <div v-if="basePageData">
-        <u-tabs :list="tabs" :active-color="mainColor" :is-scroll="false" :current="current" @change="changeTab"></u-tabs>
+        <u-tabs :list="tabs" :active-color="mainColor" :is-scroll="false" :current="current"
+          @change="changeTab"></u-tabs>
         <div class="content" v-if="current == 0">
           <u-empty style='margin-top:100rpx' v-if="goodsList.length == 0" class="empty" text='暂无商品信息'></u-empty>
           <goodsTemplate style="width:100%;" v-else :res="goodsList" :storeName="false" />
         </div>
         <!-- 全部分类 -->
         <div class="category" v-if="current == 1">
-          <div class="category-item" v-for="(item,index) in categoryList" :key="index">
+          <div class="category-item" v-for="(item, index) in categoryList" :key="index">
             <div class="flex" @click="getCategoryGoodsList(item)">
-              <div>{{item.labelName}}</div>
+              <div>{{ item.labelName }}</div>
               <div>
                 <u-icon color="#999" name="arrow-right"></u-icon>
               </div>
             </div>
             <!-- 分类子级 -->
-            <div class="child-list" v-if="item.children && item.children.length!=0">
-              <div class="child" @click="getCategoryGoodsList(child)" :key='i' v-for="(child,i) in item.children">{{child.labelName}}
+            <div class="child-list" v-if="item.children && item.children.length != 0">
+              <div class="child" @click="getCategoryGoodsList(child)" :key='i' v-for="(child, i) in item.children">
+                {{ child.labelName }}
               </div>
             </div>
           </div>
@@ -110,33 +93,17 @@
         <!-- uni 中不能使用 vue component 所以用if判断每个组件 -->
         <div v-for="(item, index) in pageData.list" :key="index">
           <!-- 搜索栏，如果在楼层装修顶部则会自动浮动，否则不浮动 -->
-          <u-navbar
-            class="navbar"
-            v-if="item.type == 'search'"
-            :is-fixed="index === 1 ? false : true"
-          >
+          <u-navbar class="navbar" v-if="item.type == 'search'" :is-fixed="index === 1 ? false : true">
             <div class="navbar-right"></div>
 
-            <search style="width: 100%" :res="item.options" :storeId = "storeId"/>         
+            <search style="width: 100%" :res="item.options" :storeId="storeId" />
           </u-navbar>
           <carousel v-if="item.type == 'carousel'" :res="item.options" />
           <titleLayout v-if="item.type == 'title'" :res="item.options" />
-          <leftOneRightTwo
-            v-if="item.type == 'leftOneRightTwo'"
-            :res="item.options"
-          />
-          <leftTwoRightOne
-            v-if="item.type == 'leftTwoRightOne'"
-            :res="item.options"
-          />
-          <topOneBottomTwo
-            v-if="item.type == 'topOneBottomTwo'"
-            :res="item.options"
-          />
-          <topTwoBottomOne
-            v-if="item.type == 'topTwoBottomOne'"
-            :res="item.options"
-          />
+          <leftOneRightTwo v-if="item.type == 'leftOneRightTwo'" :res="item.options" />
+          <leftTwoRightOne v-if="item.type == 'leftTwoRightOne'" :res="item.options" />
+          <topOneBottomTwo v-if="item.type == 'topOneBottomTwo'" :res="item.options" />
+          <topTwoBottomOne v-if="item.type == 'topTwoBottomOne'" :res="item.options" />
           <flexThree v-if="item.type == 'flexThree'" :res="item.options" />
           <flexFive v-if="item.type == 'flexFive'" :res="item.options" />
           <flexFour v-if="item.type == 'flexFour'" :res="item.options" />
@@ -252,9 +219,9 @@ export default {
     current(val) {
       val == 0
         ? () => {
-            this.goodsList = [];
-            this.getGoodsData();
-          }
+          this.goodsList = [];
+          this.getGoodsData();
+        }
         : this.getCategoryData();
     },
   },
@@ -264,7 +231,7 @@ export default {
    */
   async onLoad(options) {
     this.storeId = options.id;
-    console.log(this.storeId,'this.storeId')
+    console.log(this.storeId, 'this.storeId')
 
     this.goodsParams.storeId = options.id;
     this.couponParams.storeId = options.id;
@@ -292,7 +259,7 @@ export default {
   },
 
   methods: {
-    talk(){
+    talk() {
       this.$options.filters.talkIm(this.storeInfo.storeId)
     },
     back() {
@@ -410,17 +377,17 @@ export default {
         this.storeInfo = res.data.result;
         // 优惠券信息
         this.getCouponsData();
-        if(res.data.result.pageShow == '1'){
+        if (res.data.result.pageShow == '1') {
           // 开启了楼层装修店铺
           this.initPageData();
           this.enablePageData = true;
         }
-        else{
+        else {
           // 商品信息
           this.getGoodsData();
           // 店铺分类
           this.getCategoryData();
-          
+
           this.basePageData = true;
         }
       } else {
@@ -447,7 +414,7 @@ export default {
       }
     },
 
-  
+
 
     /**
      *  是否收藏
@@ -515,7 +482,7 @@ export default {
 .store {
   align-items: center;
 
-  > .box {
+  >.box {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -524,21 +491,21 @@ export default {
     color: #999;
     flex: 2;
 
-    > .store-name {
+    >.store-name {
       font-size: 34rpx;
       color: #333;
       letter-spacing: 1rpx;
       font-weight: bold;
     }
 
-    > .store-message {
+    >.store-message {
       margin-top: 25rpx;
 
-      > div {
+      >div {
         font-size: 26rpx;
         margin: 0 5rpx;
 
-        > span {
+        >span {
           font-size: 26rpx;
           font-weight: bold;
           color: #333;
@@ -570,7 +537,7 @@ export default {
   flex-wrap: wrap;
   justify-content: space-between;
 
-  > .empty {
+  >.empty {
     width: 100%;
     display: flex;
     justify-content: center;
@@ -701,17 +668,17 @@ export default {
   padding: 22rpx;
   margin: 20rpx 10rpx;
 
-  > .flex {
+  >.flex {
     color: #666;
     justify-content: space-between;
   }
 
-  > .child-list {
+  >.child-list {
     display: flex;
     margin: 20rpx 0;
     flex-wrap: wrap;
 
-    > .child {
+    >.child {
       justify-content: center;
       margin: 1% 0;
       display: flex;

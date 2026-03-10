@@ -87,7 +87,6 @@ export default {
       let res = await getStoreList(this.params);
       if (res.data.success) {
         let data = res.data.result;
-        
         this.storeList.push(...data.records);
       }
     },
