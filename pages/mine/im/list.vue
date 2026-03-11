@@ -4,7 +4,7 @@
     <scroll-view class="list-scroll-content" scroll-y @scrolltolower="loadData(tabIndex)">
       
       <!-- 消息列表 -->
-      <div class="iconBox">
+      <!-- <div class="iconBox">
         <view class="icon-list">
           <view class="icon-item" @click="cleanUnread()">
             <div class="bag bag1">
@@ -19,9 +19,9 @@
             <view>系统消息</view>
           </view>
         </view>
-      </div>
-      <u-search class="nav-search" v-model="userName" clearabled @change="userTalkList()" placeholder="搜索用户"
-        :show-action="false"></u-search>
+      </div> -->
+      <!-- <u-search class="nav-search" v-model="userName" clearabled @change="userTalkList()" placeholder="搜索用户"
+        :show-action="false"></u-search> -->
       <view class="talk-view" :key="index" v-for="(item, index) in talkList">
         <view>
           <view @click="onclickToTalkInfo(item)">
@@ -142,7 +142,7 @@ export default {
 .talk-view {
   border-radius: 20rpx;
   background-color: #fff;
-
+  margin-top: 20rpx;
   .talk-item-view {
     display: flex;
     flex-wrap: wrap;

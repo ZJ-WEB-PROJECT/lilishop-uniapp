@@ -1,17 +1,17 @@
 <template>
   <div class="wrapper">
     <!-- uni 中不能使用 vue component 所以用if判断每个组件 -->
+    <div class="meet" @click="navigateToMeet">
+      遇见
+    </div>
     <div v-for="(item, index) in pageData.list" :key="index">
       <!-- 搜索栏，如果在楼层装修顶部则会自动浮动，否则不浮动 -->
-      <u-navbar class="navbar" v-if="item.type == 'search'" :is-back="false" :is-fixed="index === 1 ? false : true">
+      <!-- <u-navbar class="navbar" v-if="item.type == 'search'" :is-back="false" :is-fixed="index === 1 ? false : true">
         <search style="width: 100%" :res="item.options" />
-        <!-- #ifndef H5 -->
-        <!-- 扫码功能 不兼容h5 详情文档: https://uniapp.dcloud.io/api/system/barcode?id=scancode -->
         <div slot="right" class="navbar-right">
           <u-icon name="scan" @click="scan()" color="#666" size="50"></u-icon>
         </div>
-        <!-- #endif -->
-      </u-navbar>
+      </u-navbar> -->
       <!-- <carousel v-if="item.type == 'carousel'" :res="item.options" /> -->
       <titleLayout v-if="item.type == 'title'" :res="item.options" />
       <!-- <leftOneRightTwo v-if="item.type == 'leftOneRightTwo'" :res="item.options" /> -->
@@ -32,7 +32,7 @@
       <!-- <joinGroup v-if="item.type == 'joinGroup'" :res="item.options" /> -->
       <!-- <integral v-if="item.type == 'integral'" :res="item.options" /> -->
       <!-- <spike v-if="item.type == 'spike'" :res="item.options" /> -->
-    
+
     </div>
     <fetchCoupon ref='coupon' />
     <u-no-network @retry="init" @isConnected="isConnected"></u-no-network>
@@ -69,11 +69,11 @@ import fetchCoupon from '@/pages/tabbar/home/template/fetch_coupon'
 // import {receiveCoupons} from "@/api/members"
 
 export default {
-  data () {
+  data() {
     return {
       config,
       storage,
-      showCp:true,
+      showCp: true,
       pageData: "", //楼层页面数据
       isIos: "",
       enableLoad: false, //触底加载 针对于商品模块
@@ -101,22 +101,27 @@ export default {
     fetchCoupon
   },
 
-  mounted () {
+  mounted() {
     this.init();
     // #ifdef MP-WEIXIN
     // 小程序默认分享
     uni.showShareMenu({ withShareTicket: true });
     // #endif
-   
+
   },
   methods: {
-    fetchCoupon(){
-       this.$refs.coupon.firstGetAuto();
+    navigateToMeet() {
+      uni.navigateTo({
+        url: "/pages/mine/im/list"
+      });
+    },
+    fetchCoupon() {
+      this.$refs.coupon.firstGetAuto();
     },
     /**
      * 实例化首页数据楼层
      */
-    init () {
+    init() {
       this.pageData = "";
       getFloorData().then((res) => {
         if (res.data.success) {
@@ -130,7 +135,7 @@ export default {
       });
     },
     // 是否有网络链接
-    isConnected (val) {
+    isConnected(val) {
       val ? this.init() : ''
     },
 
@@ -142,7 +147,7 @@ export default {
      * 扫描二维码登录
      * 扫描其他站信息 弹出提示，返回首页。
      */
-    scanCode () {
+    scanCode() {
       uni.scanCode({
         success: function (res) {
           let path = encodeURIComponent(res.result);
@@ -187,7 +192,7 @@ export default {
     /**
      * 提示获取权限
      */
-    tipsGetSettings () {
+    tipsGetSettings() {
       uni.showModal({
         title: "提示",
         content: "您已经关闭相机权限,去设置",
@@ -207,7 +212,7 @@ export default {
      * 唤醒客户端扫码
      * 没权限去申请权限，有权限获取扫码功能
      */
-    async scan () {
+    async scan() {
       // #ifdef APP-PLUS
       this.isIos = plus.os.name == "iOS";
       // 判断是否是Ios
@@ -243,6 +248,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.meet{
+  text-align: center;
+  line-height: 100rpx;
+  background: #fff;
+  font-size: 28rpx;
+  font-weight: bold;
+}
 .navbar-right {
   padding: 0 16rpx 0 0;
 }

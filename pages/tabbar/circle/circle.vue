@@ -5,8 +5,8 @@
       <u-input v-model="publishForm.content" type="textarea" :border="false" :height="170"
         placeholder="请输入帖子内容，分享商品动态..." />
       <view class="upload-wrap">
-        <u-upload :header="{ accessToken: storage.getAccessToken() }" :action="uploadAction" width="145" :max-count="9"
-          :show-progress="false" @on-uploaded="onUploadDone" />
+        <u-upload ref="uploadRef" :header="{ accessToken: storage.getAccessToken() }" :action="uploadAction" width="145"
+          :max-count="9" :show-progress="false" @on-uploaded="onUploadDone" />
       </view>
       <view class="publish-footer">
         <text class="tips">支持上传多张图片，提升帖子曝光</text>
@@ -58,9 +58,12 @@ export default {
   },
   methods: {
     getList() {
-      getCircleList(this.params).then(res => {
+      getCircleList(this.params).then((res) => {
         if (res.data.success) {
           const data = res.data.result;
+          if (this.params.pageNumber === 1) {
+            this.list = [];
+          }
           this.list.push(...data.records);
         }
       });
@@ -80,30 +83,19 @@ export default {
         content,
         images: this.publishForm.images,
       };
-      circleCreate(post).then(res => {
+      circleCreate(post).then((res) => {
         if (res.data.success) {
           this.publishForm.content = "";
           this.publishForm.images = [];
           uni.showToast({ title: "发布成功", icon: "none" });
+          if (this.$refs.uploadRef && this.$refs.uploadRef.clear) {
+            this.$refs.uploadRef.clear();
+          }
+          this.params.pageNumber = 1;
           this.getList();
         }
       });
     },
-    submitComment(postId) {
-      const text = ((this.commentDrafts[postId] || "") + "").trim();
-      if (!text) {
-        uni.showToast({ title: "评论内容不能为空", icon: "none" });
-        return;
-      }
-      const target = this.posts.find((item) => item.id === postId);
-      if (!target) return;
-      target.comments.push({
-        id: Date.now(),
-        userName: "当前用户",
-        content: text
-      });
-      this.$set(this.commentDrafts, postId, "");
-    }
   }
 };
 </script>

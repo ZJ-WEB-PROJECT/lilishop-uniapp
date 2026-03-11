@@ -16,7 +16,7 @@
         </view>
         <!-- 用户消息 头像可选加入-->
         <view v-if="item.my" class="flex justify-end padding-right one-show  align-start  padding-top">
-          <view class="flex justify-end" style="width: 400rpx;margin-top: 12px;">
+          <view class="flex justify-end" style="width: 400rpx;">
             <view>
               <view class="user-name">{{ user.nickName }}</view>
               <view class="margin-left padding-chat bg-user-orang" style="border-radius: 35rpx; ">
@@ -35,33 +35,34 @@
                           JSON.parse(item.text)['goodsName']
                         }}</text>
                       </view>
-                      <view class="goods-desc-rice" >￥{{
-                            JSON.parse(item.text)['price'] | unitPrice
-                          }}
+                      <view class="goods-desc-rice">￥{{
+                        JSON.parse(item.text)['price'] | unitPrice
+                      }}
                       </view>
                     </view>
                   </view>
                 </view>
-          
+
                 <view v-if="item.messageType == 'ORDER'" @click="linkTosOrders(item.text)">
                   <view class="order-sn">
                     <div class="wes">订单号：{{ JSON.parse(item.text)['sn'] }}</div>
-                    <div class='order-item flex' v-if="JSON.parse(item.text).orderItems.length"  v-for='(order,orderIndex) in JSON.parse(item.text).orderItems'>
-                      <u-image  mode="widthFix" width='120rpx' height='120rpx' :src="order.image" />
-                       <view class="name-or-time">
-                        <div class="wes-2" >{{
-                        order.name
-                        }}</div>
+                    <div class='order-item flex' v-if="JSON.parse(item.text).orderItems.length"
+                      v-for='(order, orderIndex) in JSON.parse(item.text).orderItems'>
+                      <u-image mode="widthFix" width='120rpx' height='120rpx' :src="order.image" />
+                      <view class="name-or-time">
+                        <div class="wes-2">{{
+                          order.name
+                          }}</div>
                         <div class="main-color goods-desc-rice">{{
                           order.goodsPrice | unitPrice("￥")
                         }}</div>
-                        
+
                       </view>
                     </div>
                     <view class="order-list">
                       <view class="order-time">
-                          <text>{{ JSON.parse(item.text)['paymentTime'] }}</text>
-                        </view>
+                        <text>{{ JSON.parse(item.text)['paymentTime'] }}</text>
+                      </view>
                     </view>
                   </view>
                 </view>
@@ -97,9 +98,9 @@
                           JSON.parse(item.text)['goodsName']
                         }}</text>
                       </view>
-                        <view class="goods-desc-rice" >¥{{
-                            JSON.parse(item.text)['price']
-                          }}
+                      <view class="goods-desc-rice">¥{{
+                        JSON.parse(item.text)['price']
+                      }}
                       </view>
                     </view>
                   </view>
@@ -132,8 +133,7 @@
         style="height: 120rpx;">
       </view>
       <!-- 如果没有聊天记录，定位到底部 -->
-      <view
-        :style="{ position:'fixed' , bottom:(inputHeight+66)+'px' , width:  '100%' }">
+      <view :style="{ position: 'fixed', bottom: (inputHeight + 66) + 'px', width: '100%' }">
         <view class="cart-message" v-if="showHide && !localImGoodsId && showHideModel">
           <view class="goods-card u-flex u-row-between u-p-b-0">
             <view class="image-box" @click="jumpGoodDesc(item)">
@@ -145,7 +145,7 @@
                   goodListData.goodsName
                 }}</text>
               </view>
-              <view class="goods-desc-rice" > ￥{{
+              <view class="goods-desc-rice"> ￥{{
                 goodListData.price | unitPrice
               }}
               </view>
@@ -159,31 +159,34 @@
       </view>
 
       <!-- 防止消息底部被遮 -->
-      <view  style="height: 120rpx;">
+      <view style="height: 120rpx;">
       </view>
     </view>
     <!-- 底部导航栏 -->
-    <view :style="{position: 'fixed', bottom:inputHeight+'px'}" class="flex-column-center bottom-dh"  :animation="animationData">
+    <view :style="{ position: 'fixed', bottom: inputHeight + 'px' }" class="flex-column-center bottom-dh"
+      :animation="animationData">
       <view class="bottom-dh-char flex-row-around" style="font-size: 55rpx;">
         <!-- vue无法使用软键盘"发送" -->
 
         <!-- #ifndef MP-WEIXIN -->
-         <div v-if="!isShow" @click="navigateToBottom"  class="dh-input">
+        <div v-if="!isShow" @click="navigateToBottom" class="dh-input">
           用一句简短的话描述您的问题
-         </div>
-         <input v-show="isShow" ref="inputRef" :focus="isShow"  @focus="inputBindFocus" @blur="eventHandle" :adjust-position="false" v-model="msg" class="dh-input" type="text" style="background-color: #f0f0f0;" @confirm="sendMessage"
-         confirm-type="send"  placeholder="用一句简短的话描述您的问题" />
-         <!-- #endif  -->
+        </div>
+        <input v-show="isShow" ref="inputRef" :focus="isShow" @focus="inputBindFocus" @blur="eventHandle"
+          :adjust-position="false" v-model="msg" class="dh-input" type="text" style="background-color: #f0f0f0;"
+          @confirm="sendMessage" confirm-type="send" placeholder="用一句简短的话描述您的问题" />
+        <!-- #endif  -->
 
-         <!-- #ifdef MP-WEIXIN -->
-         <input  ref="inputRef"   @focus="inputBindFocus" @blur="eventHandle" :adjust-position="false" v-model="msg" class="dh-input" type="text" style="background-color: #f0f0f0;" @confirm="sendMessage"
-         confirm-type="send"  placeholder="用一句简短的话描述您的问题" />
-         <!-- #endif -->
+        <!-- #ifdef MP-WEIXIN -->
+        <input ref="inputRef" @focus="inputBindFocus" @blur="eventHandle" :adjust-position="false" v-model="msg"
+          class="dh-input" type="text" style="background-color: #f0f0f0;" @confirm="sendMessage" confirm-type="send"
+          placeholder="用一句简短的话描述您的问题" />
+        <!-- #endif -->
 
         <view @click="sendMessage" class="cu-tag bg-main-color send round">
-          发送 
+          发送
         </view>
-       
+
         <!-- <text @click="ckAdd" class="cuIcon-roundaddfill text-brown"></text> -->
       </view>
     </view>
@@ -212,7 +215,7 @@ import config from '@/config/config.js'
 import { textReplaceEmoji, emojistwo } from '@/utils/emojis.js';
 export default {
   // 页面卸载后清除imGoodId
-  onUnload () {
+  onUnload() {
     // #ifdef H5
     uni.setStorageSync("imGoodId", '');
     // #endif
@@ -221,7 +224,7 @@ export default {
       uni.closeSocket();
     }
   },
-  onLoad (options) {
+  onLoad(options) {
     // 没有goodsid则不显示 发送商品弹窗
     this.showHideModel = options.goodsid
     // 发送后刷新页面不显示 发送商品弹窗 local里面imGoodId不为空显示
@@ -233,7 +236,7 @@ export default {
     if (this.resolve.goodsid) {
       this.commodityDetails()
     }
- 
+
     var query = uni.getSystemInfoSync()
 
     l = query.screenWidth / 750
@@ -258,13 +261,13 @@ export default {
 
 
   // 页面隐藏
-  onHide () {
+  onHide() {
     uni.closeSocket();
   },
-  onUnload () {
+  onUnload() {
     uni.closeSocket();
   },
-  onPullDownRefresh () {
+  onPullDownRefresh() {
     this.params.pageNumber = this.params.pageNumber + 1
     this.getTalkMessage()
     setTimeout(function () {
@@ -272,7 +275,7 @@ export default {
     }, 1000);
   },
 
-  data () {
+  data() {
     return {
       textReplaceEmoji,
       emojistwo,
@@ -305,21 +308,21 @@ export default {
       resolve: {},
       goodListData: {},
       count: 0, //判断socket断开连接请求次数
-      inputHeight:0,
-      isShow:false,
-    
-   
+      inputHeight: 0,
+      isShow: false,
+
+
     }
   },
-  onPageScroll (e) {
- 
+  onPageScroll(e) {
+
     // #ifdef APP-PLUS
     uni.hideKeyboard()
     this.isShow = false
     // #endif
   },
   methods: {
-    navigateToBottom(){
+    navigateToBottom() {
       // #ifdef H5
       this.isShow = true
       this.$refs.inputRef.focus()
@@ -331,43 +334,43 @@ export default {
           scrollTop: 5000000,
           duration: 50,
           success: () => {
-           setTimeout(() => { 
-            this.isShow = true
-           }, 200);
-          ;
+            setTimeout(() => {
+              this.isShow = true
+            }, 200);
+            ;
           },
           fail: () => { },
-          complete: () => {}
+          complete: () => { }
         });
       });
       // #endif
-      
+
     },
 
-    eventHandle(){
-     
+    eventHandle() {
+
       this.inputHeight = 0
       this.isShow = false
     },
-    inputBindFocus(e){
-       if (e.detail.height) {
-     
-       
-          // #ifdef APP-PLUS
-          // 判断是否是ios
-          if (uni.getSystemInfoSync().platform == 'ios') {
-            this.inputHeight = e.detail.height - 40 //这个高度就是软键盘的高度
-          }else{
-            this.inputHeight = e.detail.height
-          }
-         //  #endif
-        
-          // #ifndef APP-PLUS
-          this.inputHeight = e.detail.height //这个高度就是软键盘的高度
-          //  #endif
-       }
+    inputBindFocus(e) {
+      if (e.detail.height) {
+
+
+        // #ifdef APP-PLUS
+        // 判断是否是ios
+        if (uni.getSystemInfoSync().platform == 'ios') {
+          this.inputHeight = e.detail.height - 40 //这个高度就是软键盘的高度
+        } else {
+          this.inputHeight = e.detail.height
+        }
+        //  #endif
+
+        // #ifndef APP-PLUS
+        this.inputHeight = e.detail.height //这个高度就是软键盘的高度
+        //  #endif
+      }
     },
-    sendMessage () {
+    sendMessage() {
       if (this.msg == "") {
         return 0;
       }
@@ -395,7 +398,7 @@ export default {
       this.msgGo(type)
       this.msg = ""
     },
-    sendGoodsMessage () {
+    sendGoodsMessage() {
       let msg = {
         operation_type: "MESSAGE",
         to: this.toUser.userId,
@@ -424,7 +427,7 @@ export default {
         });
       })
     },
-    socket () {
+    socket() {
       var _this = this;
       uni.closeSocket();
       this.socketOpen = false;
@@ -481,7 +484,7 @@ export default {
     },
     beautifyTime,
     //订单详情
-    linkTosOrders (val) {
+    linkTosOrders(val) {
       let order = JSON.parse(val)
       uni.navigateTo({
         url: '/pages/order/orderDetail?sn=' + order.sn,
@@ -489,7 +492,7 @@ export default {
 
     },
     // 跳转商品详情页
-    jumpGoodDesc (item) {
+    jumpGoodDesc(item) {
       let info = JSON.parse(item.text)
       uni.navigateTo({
         url: `/pages/product/goods?id=${info.id}&goodsId=${info.goodsId}`,
@@ -497,17 +500,17 @@ export default {
     },
 
     //取消发送
-    cancelModel () {
+    cancelModel() {
       this.showHide = false
     },
     // 请求商品详情
-    commodityDetails () {
+    commodityDetails() {
       jumpObtain(this.resolve.skuid, this.resolve.goodsid).then((res) => {
         this.goodListData = res.data.result.data
       })
     },
     // 切换输入法时移动输入框(按照官方的上推页面的原理应该会自动适应不同的键盘高度-->官方bug)
-    goPag (kh) {
+    goPag(kh) {
       this.retractBox(0, 250)
       if (this.keyHeight != 0) {
         if (kh - this.keyHeight > 0) {
@@ -516,7 +519,7 @@ export default {
       }
     },
     // 移动顶部的空盒子
-    messageBoxMove (x, t) {
+    messageBoxMove(x, t) {
       var animation = uni.createAnimation({
         duration: t,
         timingFunction: 'linear',
@@ -526,7 +529,7 @@ export default {
       this.anData = animation.export()
     },
     // 保持消息体可见
-    msgGo (type) {
+    msgGo(type) {
       const query = uni.createSelectorQuery()
       // 延时100ms保证是最新的高度
       setTimeout(() => {
@@ -565,12 +568,12 @@ export default {
       }, 100)
     },
     // 回答问题的业务逻辑
-    answer (id) {
+    answer(id) {
       // 这里应该传入问题的id,模拟就用index代替了
 
     },
     // 不建议输入框聚焦时操作此动画
-    ckAdd () {
+    ckAdd() {
       if (!this.showTow) {
         this.retractBox(-180, 350)
       } else {
@@ -578,11 +581,11 @@ export default {
       }
       this.showTow = !this.showTow
     },
-    hideKey () {
+    hideKey() {
       uni.hideKeyboard()
     },
     // 拉起/收回附加栏
-    retractBox (x, t) {
+    retractBox(x, t) {
       var animation = uni.createAnimation({
         duration: t,
         timingFunction: 'ease',
@@ -591,7 +594,7 @@ export default {
       animation.translateY(x).step()
       this.animationData = animation.export()
     },
-    async getTalkMessage () {
+    async getTalkMessage() {
       let type = '';
       await getTalkMessage(this.params).then(res => {
         if (res.data.success) {
@@ -613,13 +616,13 @@ export default {
       this.msgGo(type)
     },
     // 上拉加载
-    touchMoreMessage (e) {
+    touchMoreMessage(e) {
       if (e.target.scrollTop == 0) {
         this.params.pageNumber = this.params.pageNumber + 1
         this.getTalkMessage()
       }
     },
-    async getTalk (userId) {
+    async getTalk(userId) {
       getTalkByUser(userId).then(res => {
         if (res.data.success) {
           this.toUser = res.data.result
@@ -629,7 +632,7 @@ export default {
       })
     },
     // 处理消息时间是否显示
-    compareTime (index, datetime) {
+    compareTime(index, datetime) {
       if (datetime == undefined) {
         return false;
       }
@@ -671,7 +674,7 @@ export default {
      * @param format 转换格式
      * @returns {*|string}
      */
-    unixToDate (unix, format) {
+    unixToDate(unix, format) {
       if (!unix) return unix;
       let _format = format || "yyyy-MM-dd hh:mm:ss";
       const d = new Date(unix);
@@ -704,9 +707,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.send{
+.send {
   font-size: 24rpx !important;
 }
+
 .order-time {
   margin-top: 15rpx;
   white-space: nowrap;
@@ -844,20 +848,20 @@ export default {
   margin-bottom: 10rpx;
   margin-left: 10rpx;
 }
+
 .dh-input {
-  line-height: 65rpx;
+  line-height: 70rpx;
   width: 500rpx;
-  height: 65rpx;
+  height: 70rpx;
   border-radius: 30rpx;
   padding-left: 15rpx;
   font-size: 22rpx;
   background-color: #FFFFFF;
 }
+
 .column-time {
   justify-content: center;
 }
-
-
 
 .chat-img {
   border-radius: 50%;
@@ -874,13 +878,15 @@ export default {
   width: 50rpx;
   height: 50rpx;
 }
-.goods-desc-rice{
+
+.goods-desc-rice {
   font-size: 24rpx;
   color: $main-color;
   font-weight: bold;
   margin-top: 10rpx;
 }
-.order-item{
+
+.order-item {
   margin: 10rpx 0
 }
 
@@ -892,19 +898,19 @@ uni-page-head {
   right: 0;
   z-index: 9999;
 }
-.bottom-dh{
-  position: fixed;   // input 所在盒子设置绝对定位
+
+.bottom-dh {
+  position: fixed; // input 所在盒子设置绝对定位
   flex-shrink: 0;
   width: 100%;
   left: 0;
-  bottom: 0;  // 默认 0
+  bottom: 0; // 默认 0
   z-index: 199;
   padding-bottom: env(safe-area-inset-bottom);
   background: #FFFFFF;
   box-sizing: border-box;
 
 }
-
 </style>
 
 <style lang="scss" scoped>

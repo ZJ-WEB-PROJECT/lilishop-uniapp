@@ -152,5 +152,8 @@ export default {
   padding: 6rpx 10rpx 6rpx 18rpx;
   display: flex;
   align-items: center;
+  u-input{
+    flex: 1;
+  }
 }
 </style>
