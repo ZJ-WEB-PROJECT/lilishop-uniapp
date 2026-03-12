@@ -15,7 +15,7 @@
           </view> -->
         </view>
         <!-- 用户消息 头像可选加入-->
-        <view v-if="item.my" class="flex justify-end padding-right one-show  align-start  padding-top">
+        <view v-if="item.my" class="flex justify-end padding-right one-show  align-center padding-top">
           <view class="flex justify-end" style="width: 400rpx;">
             <view>
               <view class="user-name">{{ user.nickName }}</view>
@@ -52,7 +52,7 @@
                       <view class="name-or-time">
                         <div class="wes-2">{{
                           order.name
-                          }}</div>
+                        }}</div>
                         <div class="main-color goods-desc-rice">{{
                           order.goodsPrice | unitPrice("￥")
                         }}</div>
@@ -69,7 +69,7 @@
               </view>
             </view>
           </view>
-          <view>
+          <view class="ml-10">
             <u-avatar :src="user.face" :text="user.face ? '' : user.name" bg-color="#DDDDDD"></u-avatar>
           </view>
         </view>
@@ -82,7 +82,7 @@
           <view class="flex" style="width: 500rpx;">
             <view>
               <view class="other-name">{{ toUser.name }}</view>
-              <view class="margin-left padding-chat flex-column-start bg-to-color" style="border-radius: 35rpx;">
+              <view class="padding-chat flex-column-start bg-to-color" style="border-radius: 35rpx;">
                 <text style="word-break: break-all;"
                   v-if="item.messageType === 'MESSAGE' && !emojistwo.includes(item.text)">{{ item.text }}</text>
                 <view v-if="item.messageType === 'MESSAGE' && emojistwo.includes(item.text)"
@@ -325,7 +325,9 @@ export default {
     navigateToBottom() {
       // #ifdef H5
       this.isShow = true
-      this.$refs.inputRef.focus()
+      if (this.$refs.inputRef) {
+        this.$refs.inputRef.focus()
+      }
       // #endif
 
       // #ifdef APP-PLUS
@@ -464,12 +466,12 @@ export default {
         // 监听收到信息
         uni.onSocketMessage(function (res) {
           res.data = JSON.parse(res.data)
-          console.log(res.data.result);
           if (res.data.messageResultType == 'MESSAGE') {
+            if (res.data.result.fromUser === _this.user.id) {
+              return
+            }
             _this.msgList.push(res.data.result)
-            console.log(_this.msgList)
           }
-          console.log(res.data)
           _this.msgGo()
         })
       } catch (e) {
@@ -612,7 +614,6 @@ export default {
           })
         }
       })
-      console.log(this.msgList);
       this.msgGo(type)
     },
     // 上拉加载
@@ -909,7 +910,10 @@ uni-page-head {
   padding-bottom: env(safe-area-inset-bottom);
   background: #FFFFFF;
   box-sizing: border-box;
+}
 
+.ml-10{
+  margin-left: 10rpx;
 }
 </style>
 

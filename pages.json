@@ -835,8 +835,8 @@
 			},
 			{
 				"pagePath": "pages/tabbar/circle/circle",
-				"iconPath": "static/tabbar/cart.png",
-				"selectedIconPath": "static/tabbar/cart-s.png",
+				"iconPath": "static/tabbar/circle.png",
+				"selectedIconPath": "static/tabbar/circle-s.png",
 				"text": "圈子"
 			},
 			{

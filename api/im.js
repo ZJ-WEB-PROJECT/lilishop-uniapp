@@ -33,7 +33,7 @@ export function getTalk(talkId) {
  */
  export function getTalkList(params) {
     return http.request({
-      url: `${api.im}/talk/list`,
+      url: `${api.im}/talk/store/list`,
       method: Method.GET,
       params
     });

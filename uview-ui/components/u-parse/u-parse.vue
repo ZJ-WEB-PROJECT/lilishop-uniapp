@@ -164,20 +164,20 @@
 			}
 		},
 		mounted() {
-			// #ifdef H5 || MP-360
-			this.document = document.getElementById('rtf' + this._uid);
-			// #endif
-			// #ifndef H5 || APP-PLUS-NVUE || MP-360
-			if (dom) this.document = new dom(this);
-			// #endif
-			// #ifdef APP-PLUS-NVUE
-			this.document = this.$refs.web;
-			setTimeout(() => {
-				// #endif
-				if (this.html) this.setContent(this.html);
-				// #ifdef APP-PLUS-NVUE
-			}, 30)
-			// #endif
+			// // #ifdef H5 || MP-360
+			// this.document = document.getElementById('rtf' + this._uid);
+			// // #endif
+			// // #ifndef H5 || APP-PLUS-NVUE || MP-360
+			// if (dom) this.document = new dom(this);
+			// // #endif
+			// // #ifdef APP-PLUS-NVUE
+			// this.document = this.$refs.web;
+			// setTimeout(() => {
+			// 	// #endif
+			// 	if (this.html) this.setContent(this.html);
+			// 	// #ifdef APP-PLUS-NVUE
+			// }, 30)
+			// // #endif
 		},
 		beforeDestroy() {
 			// #ifdef H5 || MP-360
